@@ -8,7 +8,7 @@ records = {
     "rain": {
         "source": "https://github.com/RainrainWu",
         "metrix": {
-            "visited_times": 30
+            "visited_times": 0
         },
     },
 }
@@ -86,3 +86,15 @@ def get_mapping() -> dict:
     for i in records:
         mapping[i] = records[i]["source"]
     return mapping
+
+
+def add_visited_times(flag: str, count: int = 1, /):
+    """
+    add_visited_time increase the visited times of the flag.
+
+    Args:
+        flag (str): flag that visited by users.
+        count (int): visited times increase count.
+    """
+    records[flag]["metrix"]["visited_times"] += count
+    return

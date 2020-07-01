@@ -4,8 +4,14 @@ server.
 """
 
 from flask import Flask, request, redirect
+from loguru import logger
 
 from shortener import digest, database
+from shortener.config import (
+    LOG_DIRECTORY,
+    LOG_ROTATION,
+    LOG_RETENTION,
+)
 
 
 app = Flask(__name__)
@@ -39,6 +45,7 @@ def short(*, flag: str):
     url = database.get_source(flag)
     if url == "":
         return "Flag not found", 400
+    database.add_visited_times(flag)
     return redirect(url)
 
 
@@ -62,4 +69,9 @@ def dashboard():
 
 
 if __name__ == "__main__":
+    logger.add(
+        LOG_DIRECTORY + "file_{time}.log",
+        rotation=LOG_ROTATION,
+        retention=LOG_RETENTION
+    )
     app.run()
