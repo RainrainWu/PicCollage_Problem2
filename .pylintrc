@@ -1,0 +1,6 @@
+[MASTER]
+disable=
+    C0102, # Black listed name "bar" (blacklisted-name)
+    C0301, # line too long
+    C0330, # if condition block
+    R0903, # too few public methods

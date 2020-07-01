@@ -1,0 +1,7 @@
+# Mac artifacts
+.DS_Store
+
+# cached
+shortener/__pycache__/
+.mypy_cache/
+.pytest_cache/
