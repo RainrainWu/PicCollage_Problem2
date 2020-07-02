@@ -19,7 +19,7 @@ from shortener import digest
         pytest.param("%", False),
         pytest.param("12n-c4k", True),
         pytest.param("12n?c4k", False),
-        pytest.param("-------------------------------------", True),
+        pytest.param("-------------------------------------", False),
         pytest.param("                                     ", False),
     ],
 )
