@@ -17,15 +17,27 @@ from shortener.config import (
 app = Flask(__name__)
 
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def hello():
     """
     hello handles the root route and response Hello World message.
     """
-    return "Hello World"
+    return {"message": "Hello World"}
 
 
-@app.route("/submit", methods=["POST"])
+@app.route("/<string:flag>", methods=["GET"])
+def short(*, flag: str):
+    """
+    short handles the process of registering new mapping.
+    """
+    url = database.get_source(flag)
+    if url == "":
+        return {"error": "Flag not found"}, 400
+    database.add_visited_times(flag)
+    return redirect(url)
+
+
+@app.route("/user/submit", methods=["POST"])
 def submit():
     """
     submit handles the process of registering new mapping.
@@ -39,22 +51,10 @@ def submit():
     post_id = database.register_flag(flag, content["source"])
     if post_id == "":
         return {"error", "Internal server error"}, 500
-    return flag, 200
+    return {"flag": flag}, 200
 
 
-@app.route("/short/<string:flag>")
-def short(*, flag: str):
-    """
-    short handles the process of registering new mapping.
-    """
-    url = database.get_source(flag)
-    if url == "":
-        return "Flag not found", 400
-    database.add_visited_times(flag)
-    return redirect(url)
-
-
-@app.route("/metrix/<string:flag>")
+@app.route("/user/metrix/<string:flag>")
 def metrix(*, flag: str):
     """
     metrix handles the requests for flag metrix.
@@ -65,12 +65,32 @@ def metrix(*, flag: str):
     return data, 200
 
 
-@app.route("/dashboard")
+@app.route("/admin/dashboard")
 def dashboard():
     """
     short handles the dashboard demostration.
     """
     return database.get_mapping(), 200
+
+
+@app.route("/admin/delete", methods=["POST"])
+def delete():
+    """
+    delete handles the process of deleting existed flag.
+    """
+    content = request.json
+    if "flag" not in content:
+        return {"error": "Please specified a flag"}, 400
+
+    document = database.get_document(content["flag"])
+    if document is None:
+        return {"error": "Flag not found"}, 400
+
+    result = database.delete_document(content["flag"])
+    if not result:
+        return {"error", "Internal server error"}, 500
+
+    return {"message": "success"}, 200
 
 
 if __name__ == "__main__":

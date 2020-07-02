@@ -10,6 +10,7 @@ import pytest
 from shortener import digest
 
 
+@pytest.mark.unit
 @pytest.mark.parametrize(
     "tag, expected",
     [
@@ -33,6 +34,7 @@ def test_validate_tag(*, tag: str, expected: bool):
     assert digest.validate_tag(tag) == expected
 
 
+@pytest.mark.unit
 @pytest.mark.parametrize(
     "payload",
     [

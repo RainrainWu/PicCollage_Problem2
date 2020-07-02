@@ -6,14 +6,15 @@ the module PicCollage_Problem2.shortener.database.
 import pytest
 
 from shortener import database
-from shortener.config import TEST_FLAG
+from shortener.config import UNIT_TEST_FLAG
 
 
+@pytest.mark.unit
 @pytest.mark.parametrize(
     "flag, source, expected",
     [
-        pytest.param(TEST_FLAG, "domain", True),
-        pytest.param(TEST_FLAG, "domain", False),
+        pytest.param(UNIT_TEST_FLAG, "domain", True),
+        pytest.param(UNIT_TEST_FLAG, "domain", False),
     ],
 )
 def test_register_flag(*, flag: str, source: str, expected: bool):
@@ -29,10 +30,11 @@ def test_register_flag(*, flag: str, source: str, expected: bool):
     assert (output != "") == expected
 
 
+@pytest.mark.unit
 @pytest.mark.parametrize(
     "flag, expected",
     [
-        pytest.param(TEST_FLAG, True),
+        pytest.param(UNIT_TEST_FLAG, True),
         pytest.param("xc_ttf", False),
     ],
 )
@@ -48,10 +50,11 @@ def test_get_document(*, flag: str, expected: bool):
     assert (output is not None) == expected
 
 
+@pytest.mark.unit
 @pytest.mark.parametrize(
     "flag, expected",
     [
-        pytest.param(TEST_FLAG, True),
+        pytest.param(UNIT_TEST_FLAG, True),
         pytest.param("xc_ttf", False),
     ],
 )
@@ -67,10 +70,11 @@ def test_get_source(*, flag: str, expected: bool):
     assert (output != "") == expected
 
 
+@pytest.mark.unit
 @pytest.mark.parametrize(
     "flag, expected",
     [
-        pytest.param(TEST_FLAG, True),
+        pytest.param(UNIT_TEST_FLAG, True),
         pytest.param("xc_ttf", False),
     ],
 )
@@ -86,10 +90,11 @@ def test_get_metrix(*, flag: str, expected: bool):
     assert (output != {}) == expected
 
 
+@pytest.mark.unit
 @pytest.mark.parametrize(
     "flag, expected",
     [
-        pytest.param(TEST_FLAG, True),
+        pytest.param(UNIT_TEST_FLAG, True),
         pytest.param("xc_ttf", False),
     ],
 )
@@ -105,11 +110,12 @@ def test_get_mapping(*, flag: str, expected: bool):
     assert (flag in mapping) == expected
 
 
+@pytest.mark.unit
 @pytest.mark.parametrize(
     "flag, count, expected",
     [
-        pytest.param(TEST_FLAG, 1, 1),
-        pytest.param(TEST_FLAG, 2, 3),
+        pytest.param(UNIT_TEST_FLAG, 1, 1),
+        pytest.param(UNIT_TEST_FLAG, 2, 3),
         pytest.param("xc_ttf", 1, -1),
     ],
 )
@@ -126,10 +132,11 @@ def test_add_visited_times(*, flag: str, count: int, expected: int):
     assert result == expected
 
 
+@pytest.mark.unit
 @pytest.mark.parametrize(
     "flag, expected",
     [
-        pytest.param(TEST_FLAG, True),
+        pytest.param(UNIT_TEST_FLAG, True),
         pytest.param("xc_ttf", False),
     ],
 )
