@@ -6,7 +6,7 @@ from invoke import task
 
 
 @task
-def init_prod(ctx):
+def prod(ctx):
     """
     Setup environment with production dependencies.
     """
@@ -14,8 +14,8 @@ def init_prod(ctx):
 
 
 @task
-def init_dev(ctx):
+def dev(ctx):
     """
     Setup environment with developing dependencies.
     """
-    ctx.run("pipenv install")
+    ctx.run("poetry install")

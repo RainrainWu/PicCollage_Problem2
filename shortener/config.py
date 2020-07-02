@@ -24,7 +24,6 @@ FVT_VALID_TAG = "go-lang"
 FVT_INVALID_TAG = "rust!"
 FVT_INVALID_FLAG = "12-abcd"
 
-
 # invoke tasks configurations
 POETRY_PREFIX = "poetry run "
 MODULE_NAME = "shortener tests"

@@ -8,7 +8,7 @@ from shortener.config import POETRY_PREFIX
 
 
 @task
-def pytest_unit(ctx):
+def unit(ctx):
     """
     run unit test through pytest.
     """
@@ -18,7 +18,7 @@ def pytest_unit(ctx):
 
 
 @task
-def pytest_fvt(ctx):
+def fvt(ctx):
     """
     run fvt through pytest.
     """

@@ -71,7 +71,7 @@ def test_visit_landing_page():
     """
     resp = requests.get("http://localhost:5000")
     assert resp.status_code == 200
-    assert resp.json() == {"message": "Hello World"}
+    assert resp.json() == {"message": "Welcome to shortener!"}
 
 
 @pytest.mark.fvt

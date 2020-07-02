@@ -22,7 +22,7 @@ def hello():
     """
     hello handles the root route and response Hello World message.
     """
-    return {"message": "Hello World"}
+    return {"message": "Welcome to shortener!"}
 
 
 @app.route("/<string:flag>", methods=["GET"])

@@ -157,13 +157,3 @@ def delete_document(flag: str, /) -> bool:
     except PyMongoError as err:
         logger.error("Failed to delete document: ", err)
         return False
-
-
-# print(get_mapping())
-# register_flag("TX-rain", "github.com/RainrainWu")
-# print(get_mapping())
-# print(get_document("TX-rain"))
-# add_visited_times("TX-rain")
-# print(get_document("TX-rain"))
-# records.delete_one({"flag": "TX-rain"})
-# print(get_mapping())
