@@ -37,7 +37,7 @@ def generate_flag(payload: object, /) -> str:
         str: generate flag.
     """
     flag = ""
-    while database.check_flag(flag) or flag == "":
+    while database.get_document(flag) is not None or flag == "":
         letters = random.sample(string.ascii_letters, k=2)
         prefix = "".join(letters) + "-"
         flag = prefix + str(uuid.uuid4())[:8]

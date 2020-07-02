@@ -34,7 +34,12 @@ def submit():
     if "tag" in content:
         if not digest.validate_tag(content["tag"]):
             return "Invalid tag", 400
-    return digest.generate_flag(content), 200
+
+    flag = digest.generate_flag(content)
+    post_id = database.register_flag(flag, content["source"])
+    if post_id == "":
+        return {"error", "Internal server error"}, 500
+    return flag, 200
 
 
 @app.route("/short/<string:flag>")
