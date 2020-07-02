@@ -27,24 +27,6 @@ except ConnectionFailure as err:
     logger.error("Could not connect to mongodb: ", err)
 
 
-def get_document(flag: str, /) -> bool:
-    """
-    get_document will get the document with specified flag.
-
-    Args:
-        flag (str): flag to be checked.
-
-    Returns:
-        bool: True if the flag already existed, else False.
-    """
-    try:
-        document = records.find_one({"flag": flag})
-    except PyMongoError as err:
-        logger.error("Failed to obtain document: ", err)
-
-    return document
-
-
 def register_flag(flag: str, source: str, /) -> str:
     """
     register_flag register new flag information into database.
@@ -57,7 +39,7 @@ def register_flag(flag: str, source: str, /) -> str:
         bool: True if register successfully, else False.
     """
     if get_document(flag) is not None:
-        return False
+        return ""
     post = {
         "flag": flag,
         "source": source,
@@ -71,6 +53,24 @@ def register_flag(flag: str, source: str, /) -> str:
     except PyMongoError as err:
         logger.error("Failed to insert data: ", err)
         return ""
+
+
+def get_document(flag: str, /) -> object:
+    """
+    get_document will get the document with specified flag.
+
+    Args:
+        flag (str): flag to be get.
+
+    Returns:
+        object: document with the specified flag.
+    """
+    try:
+        document = records.find_one({"flag": flag})
+        return document
+    except PyMongoError as err:
+        logger.error("Failed to get document: ", err)
+        return None
 
 
 def get_source(flag: str, /) -> str:
@@ -105,7 +105,7 @@ def get_metrix(flag: str, /) -> dict:
     return document["metrix"]
 
 
-def get_mapping(size: int = 10) -> dict:
+def get_mapping() -> dict:
     """
     get_mapping obtains all mapping between flag and source url.
 
@@ -113,12 +113,12 @@ def get_mapping(size: int = 10) -> dict:
         dict: mapping relations.
     """
     mapping = {}
-    for document in records.find()[:size]:
+    for document in records.find():
         mapping[document["flag"]] = document["source"]
     return mapping
 
 
-def add_visited_times(flag: str, count: int = 1, /) -> bool:
+def add_visited_times(flag: str, count: int = 1, /) -> int:
     """
     add_visited_time increase the visited times of the flag.
 
@@ -127,21 +127,43 @@ def add_visited_times(flag: str, count: int = 1, /) -> bool:
         count (int): visited times increase count.
 
     Returns:
-        bool: whether operation is successful.
+        bool: visited_times of the flag after operation, got -1 while
+              flag not encounter errors.
     """
     document = get_document(flag)
     if document is None:
-        return False
+        return -1
 
     try:
         records.update_one(
             {"flag": flag},
             {"$inc": {"metrix.visited_times": count}}
         )
+        return get_metrix(flag)["visited_times"]
     except PyMongoError as err:
-        print("Failed to update metrix: ", err)
+        logger.error("Failed to update metrix: ", err)
+        return -1
 
-    return True
+
+def delete_document(flag: str, /) -> bool:
+    """
+    delete_document will delete the document with specified flag.
+
+    Args:
+        flag (str): flag to be delete.
+
+    Returns:
+        bool: True if the delete successfully, else False.
+    """
+    try:
+        result = records.delete_one({"flag": flag})
+        if result.deleted_count == 0:
+            logger.error("Failed to delete document: Document not found.")
+            return False
+        return True
+    except PyMongoError as err:
+        logger.error("Failed to delete document: ", err)
+        return False
 
 
 # print(get_mapping())

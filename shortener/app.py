@@ -33,7 +33,7 @@ def submit():
     content = request.json
     if "tag" in content:
         if not digest.validate_tag(content["tag"]):
-            return "Invalid tag", 400
+            return {"error": "Invalid tag"}, 400
 
     flag = digest.generate_flag(content)
     post_id = database.register_flag(flag, content["source"])

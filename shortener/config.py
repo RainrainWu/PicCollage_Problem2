@@ -10,3 +10,5 @@ MONGO_HOST = "127.0.0.1"
 MONGO_PORT = 27017
 MONGO_DATABASE = "shortener"
 MONGO_COLLECTION = "mapping"
+
+TEST_FLAG = "xC-ttf-"
