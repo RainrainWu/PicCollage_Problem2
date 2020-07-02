@@ -2,7 +2,7 @@
 PicCollage_Problem2.shortener.config store the configurations of the service.
 """
 
-# logging configurations
+# loguru configurations
 LOG_DIRECTORY = "logs/"
 LOG_ROTATION = "500 MB"
 LOG_RETENTION = "10 days"
@@ -23,3 +23,8 @@ FVT_SOURCE_3 = "https://www.rust-lang.org/"
 FVT_VALID_TAG = "go-lang"
 FVT_INVALID_TAG = "rust!"
 FVT_INVALID_FLAG = "12-abcd"
+
+
+# invoke tasks configurations
+POETRY_PREFIX = "poetry run "
+MODULE_NAME = "shortener tests"

@@ -3,8 +3,6 @@ PicCollage_Problem2.shortener.database provides methods for operating data
 storage system.
 """
 
-from bson.objectid import ObjectId
-
 from loguru import logger
 from pymongo import MongoClient
 from pymongo.errors import (
@@ -43,9 +41,7 @@ def register_flag(flag: str, source: str, /) -> str:
     post = {
         "flag": flag,
         "source": source,
-        "metrix": {
-            "visited_times": 0,
-        },
+        "metrix": {"visited_times": 0,},
     }
     try:
         post_id = records.insert_one(post).inserted_id
@@ -135,10 +131,7 @@ def add_visited_times(flag: str, count: int = 1, /) -> int:
         return -1
 
     try:
-        records.update_one(
-            {"flag": flag},
-            {"$inc": {"metrix.visited_times": count}}
-        )
+        records.update_one({"flag": flag}, {"$inc": {"metrix.visited_times": count}})
         return get_metrix(flag)["visited_times"]
     except PyMongoError as err:
         logger.error("Failed to update metrix: ", err)

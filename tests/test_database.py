@@ -33,10 +33,7 @@ def test_register_flag(*, flag: str, source: str, expected: bool):
 @pytest.mark.unit
 @pytest.mark.parametrize(
     "flag, expected",
-    [
-        pytest.param(UNIT_TEST_FLAG, True),
-        pytest.param("xc_ttf", False),
-    ],
+    [pytest.param(UNIT_TEST_FLAG, True), pytest.param("xc_ttf", False),],
 )
 def test_get_document(*, flag: str, expected: bool):
     """
@@ -53,10 +50,7 @@ def test_get_document(*, flag: str, expected: bool):
 @pytest.mark.unit
 @pytest.mark.parametrize(
     "flag, expected",
-    [
-        pytest.param(UNIT_TEST_FLAG, True),
-        pytest.param("xc_ttf", False),
-    ],
+    [pytest.param(UNIT_TEST_FLAG, True), pytest.param("xc_ttf", False),],
 )
 def test_get_source(*, flag: str, expected: bool):
     """
@@ -73,10 +67,7 @@ def test_get_source(*, flag: str, expected: bool):
 @pytest.mark.unit
 @pytest.mark.parametrize(
     "flag, expected",
-    [
-        pytest.param(UNIT_TEST_FLAG, True),
-        pytest.param("xc_ttf", False),
-    ],
+    [pytest.param(UNIT_TEST_FLAG, True), pytest.param("xc_ttf", False),],
 )
 def test_get_metrix(*, flag: str, expected: bool):
     """
@@ -93,10 +84,7 @@ def test_get_metrix(*, flag: str, expected: bool):
 @pytest.mark.unit
 @pytest.mark.parametrize(
     "flag, expected",
-    [
-        pytest.param(UNIT_TEST_FLAG, True),
-        pytest.param("xc_ttf", False),
-    ],
+    [pytest.param(UNIT_TEST_FLAG, True), pytest.param("xc_ttf", False),],
 )
 def test_get_mapping(*, flag: str, expected: bool):
     """
@@ -135,10 +123,7 @@ def test_add_visited_times(*, flag: str, count: int, expected: int):
 @pytest.mark.unit
 @pytest.mark.parametrize(
     "flag, expected",
-    [
-        pytest.param(UNIT_TEST_FLAG, True),
-        pytest.param("xc_ttf", False),
-    ],
+    [pytest.param(UNIT_TEST_FLAG, True), pytest.param("xc_ttf", False),],
 )
 def test_delete_document(*, flag: str, expected: bool):
     """
