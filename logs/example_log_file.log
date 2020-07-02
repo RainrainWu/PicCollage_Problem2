@@ -1,0 +1,11 @@
+2020-07-02 16:18:11.540 | DEBUG    | __main__:submit:58 - Register https://www.python.org/ to TR-33ab5221
+2020-07-02 16:18:11.561 | DEBUG    | __main__:submit:58 - Register https://golang.org/ to KA-go-lang
+2020-07-02 16:18:11.571 | INFO     | __main__:submit:50 - Invalid tag
+2020-07-02 16:18:11.590 | INFO     | __main__:short:38 - Redirect TR-33ab5221 to https://www.python.org/
+2020-07-02 16:18:12.213 | INFO     | __main__:short:38 - Redirect KA-go-lang to https://golang.org/
+2020-07-02 16:18:13.109 | INFO     | __main__:short:35 - Flag not found
+2020-07-02 16:18:13.117 | DEBUG    | __main__:metrix:71 - Scrape TR-33ab5221 metrix
+2020-07-02 16:18:13.123 | DEBUG    | __main__:metrix:71 - Scrape KA-go-lang metrix
+2020-07-02 16:18:13.130 | INFO     | __main__:metrix:69 - Flag not found
+2020-07-02 16:18:13.136 | DEBUG    | __main__:dashboard:80 - Show dashboard
+2020-07-02 16:18:13.170 | INFO     | __main__:delete:96 - Flag not found
