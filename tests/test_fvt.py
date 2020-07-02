@@ -23,7 +23,8 @@ from shortener.config import (
     FVT_SOURCE_2,
     FVT_SOURCE_3,
     FVT_VALID_TAG,
-    FVT_INVALID_TAG,
+    FVT_INVALID_TAG_1,
+    FVT_INVALID_TAG_2,
     FVT_INVALID_FLAG,
 )
 
@@ -105,7 +106,11 @@ def test_submit_with_invalid_tag():
     """
     test_submit_with_valid_tag will submit a payload with a invalid tag.
     """
-    resp = submit_payload(tag=FVT_INVALID_TAG, source=FVT_SOURCE_3)
+    resp = submit_payload(tag=FVT_INVALID_TAG_1, source=FVT_SOURCE_3)
+    assert resp.status_code == 400
+    assert resp.json() == {"error": "Invalid tag"}
+
+    resp = submit_payload(tag=FVT_INVALID_TAG_2, source=FVT_SOURCE_3)
     assert resp.status_code == 400
     assert resp.json() == {"error": "Invalid tag"}
 

@@ -30,6 +30,8 @@ visit `http://localhost:5000`
 
 The following section is a demo function with requests module, please refer to `tests/test_fvt.py` for advanced operation. Tag is not necessary at this part, the service will auto generate one if "tag" key not found within payload.
 
+Tag should also match the regular expression pattern `^[A-Za-z0-9-]{1,16}$`, or will got a reponse with error. The range of tag length could be adjust with `shortener/config.py`
+
 ```python=
 resp = requests.post(
     "http://localhost:5000/user/submit",

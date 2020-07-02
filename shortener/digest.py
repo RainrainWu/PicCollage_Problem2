@@ -11,7 +11,7 @@ import random
 import uuid
 
 from shortener import database
-from shortener.config import UNIT_TEST_FLAG
+from shortener.config import UNIT_TEST_FLAG, TAG_LENGTH_MINIMUM, TAG_LENGTH_MAXIMUM
 
 
 def validate_tag(tag: str) -> bool:
@@ -24,7 +24,13 @@ def validate_tag(tag: str) -> bool:
     Returns:
         bool: Token is valid or not.
     """
-    pattern = re.compile(r"^[A-Za-z0-9-]+$")
+    pattern = re.compile(
+        r"^[A-Za-z0-9-]{"
+        + str(TAG_LENGTH_MINIMUM)
+        + r","
+        + str(TAG_LENGTH_MAXIMUM)
+        + r"}$"
+    )
     return pattern.match(tag) is not None
 
 
