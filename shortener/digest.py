@@ -4,7 +4,9 @@ within user requests.
 """
 
 
-import re, string, random
+import re
+import string
+import random
 
 import uuid
 
@@ -40,9 +42,7 @@ def generate_flag(payload: object, /) -> str:
     """
     flag = ""
     while (
-        database.get_document(flag) is not None or
-        flag == "" or
-        flag == UNIT_TEST_FLAG
+        database.get_document(flag) is not None or flag == "" or flag == UNIT_TEST_FLAG
     ):
         letters = random.sample(string.ascii_letters, k=2)
         prefix = "".join(letters) + "-"

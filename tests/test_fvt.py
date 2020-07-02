@@ -24,7 +24,7 @@ from shortener.config import (
     FVT_SOURCE_3,
     FVT_VALID_TAG,
     FVT_INVALID_TAG,
-    FVT_INVALID_FLAG
+    FVT_INVALID_FLAG,
 )
 
 
@@ -39,20 +39,13 @@ def submit_payload(*, tag: str = "", source: str = "https://google.com") -> obje
     Returns:
         object: response object.
     """
-    if tag == "":    
+    if tag == "":
         resp = requests.post(
-            "http://localhost:5000/user/submit",
-            json={
-                "source": source
-            }
+            "http://localhost:5000/user/submit", json={"source": source}
         )
     else:
         resp = requests.post(
-            "http://localhost:5000/user/submit",
-            json={
-                "tag": tag,
-                "source": source
-            }
+            "http://localhost:5000/user/submit", json={"tag": tag, "source": source}
         )
     return resp
 
@@ -67,12 +60,7 @@ def delete_flag(*, flag: str) -> object:
     Returns:
         object: response object.
     """
-    resp = requests.post(
-        "http://localhost:5000/admin/delete",
-        json={
-            "flag": flag
-        }
-    )
+    resp = requests.post("http://localhost:5000/admin/delete", json={"flag": flag})
     return resp
 
 
@@ -157,9 +145,7 @@ def test_check_metrix():
     assert resp.status_code == 200
     assert resp.json()["visited_times"] == 1
 
-    resp = requests.get(
-        "http://localhost:5000/user/metrix/" + FVT_INVALID_FLAG
-    )
+    resp = requests.get("http://localhost:5000/user/metrix/" + FVT_INVALID_FLAG)
     assert resp.status_code == 400
     assert resp.json() == {"error": "Flag not found"}
 

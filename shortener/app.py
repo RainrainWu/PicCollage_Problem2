@@ -55,7 +55,9 @@ def submit():
     if post_id == "":
         logger.error("Internal server error")
         return {"error", "Internal server error"}, 500
-    logger.debug("Register {SOURCE} to {FLAG}".format(SOURCE=content["source"], FLAG=flag))
+    logger.debug(
+        "Register {SOURCE} to {FLAG}".format(SOURCE=content["source"], FLAG=flag)
+    )
     return {"flag": flag}, 200
 
 
@@ -108,6 +110,6 @@ if __name__ == "__main__":
     logger.add(
         LOG_DIRECTORY + "file_{time}.log",
         rotation=LOG_ROTATION,
-        retention=LOG_RETENTION
+        retention=LOG_RETENTION,
     )
     app.run()
