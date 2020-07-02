@@ -9,6 +9,7 @@ import re, string, random
 import uuid
 
 from shortener import database
+from shortener.config import UNIT_TEST_FLAG
 
 
 def validate_tag(tag: str) -> bool:
@@ -21,14 +22,15 @@ def validate_tag(tag: str) -> bool:
     Returns:
         bool: Token is valid or not.
     """
-    pattern = re.compile(r"^[A-Za-z0-9-]*$")
-    return pattern.match(tag)
+    pattern = re.compile(r"^[A-Za-z0-9-]+$")
+    return pattern.match(tag) is not None
 
 
 def generate_flag(payload: object, /) -> str:
     """
     generate_flag will generate flag depends on payload. If 'tag' key
-    exist, a prefix will be attached, or a random string will be used.
+    exist, a prefix will be attached, otherwise a random string will
+    be used.
 
     Args:
         payload (object): json object that contains payloads.
@@ -37,7 +39,11 @@ def generate_flag(payload: object, /) -> str:
         str: generate flag.
     """
     flag = ""
-    while database.get_document(flag) is not None or flag == "":
+    while (
+        database.get_document(flag) is not None or
+        flag == "" or
+        flag == UNIT_TEST_FLAG
+    ):
         letters = random.sample(string.ascii_letters, k=2)
         prefix = "".join(letters) + "-"
         flag = prefix + str(uuid.uuid4())[:8]
