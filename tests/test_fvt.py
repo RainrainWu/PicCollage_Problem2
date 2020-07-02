@@ -23,7 +23,8 @@ from shortener.config import (
     FVT_SOURCE_2,
     FVT_SOURCE_3,
     FVT_VALID_TAG,
-    FVT_INVALID_TAG
+    FVT_INVALID_TAG,
+    FVT_INVALID_FLAG
 )
 
 
@@ -81,6 +82,7 @@ def test_visit_landing_page():
     visit_landing_page will vesit landing page of shortener service.
     """
     resp = requests.get("http://localhost:5000")
+    assert resp.status_code == 200
     assert resp.json() == {"message": "Hello World"}
 
 
@@ -126,10 +128,16 @@ def test_check_redirection():
     test_check_redirection will test the redirect of shorted url.
     """
     resp = requests.get("http://localhost:5000/" + test_submit_without_tag.flag)
+    assert resp.status_code == 200
     assert resp.url == FVT_SOURCE_1
 
     resp = requests.get("http://localhost:5000/" + test_submit_with_valid_tag.flag)
+    assert resp.status_code == 200
     assert resp.url == FVT_SOURCE_2
+
+    resp = requests.get("http://localhost:5000/" + FVT_INVALID_FLAG)
+    assert resp.status_code == 400
+    assert resp.json() == {"error": "Flag not found"}
 
 
 @pytest.mark.fvt
@@ -140,12 +148,20 @@ def test_check_metrix():
     resp = requests.get(
         "http://localhost:5000/user/metrix/" + test_submit_without_tag.flag
     )
+    assert resp.status_code == 200
     assert resp.json()["visited_times"] == 1
 
     resp = requests.get(
         "http://localhost:5000/user/metrix/" + test_submit_with_valid_tag.flag
     )
+    assert resp.status_code == 200
     assert resp.json()["visited_times"] == 1
+
+    resp = requests.get(
+        "http://localhost:5000/user/metrix/" + FVT_INVALID_FLAG
+    )
+    assert resp.status_code == 400
+    assert resp.json() == {"error": "Flag not found"}
 
 
 @pytest.mark.fvt
@@ -156,6 +172,7 @@ def test_check_dashboard():
     resp = requests.get("http://localhost:5000/admin/dashboard")
     assert test_submit_without_tag.flag in resp.json()
     assert test_submit_with_valid_tag.flag in resp.json()
+    assert FVT_INVALID_FLAG not in resp.json()
 
 
 @pytest.mark.fvt
@@ -170,3 +187,7 @@ def test_delete_all():
     resp = delete_flag(flag=test_submit_with_valid_tag.flag)
     assert resp.status_code == 200
     assert resp.json() == {"message": "success"}
+
+    resp = delete_flag(flag=FVT_INVALID_FLAG)
+    assert resp.status_code == 400
+    assert resp.json() == {"error": "Flag not found"}
